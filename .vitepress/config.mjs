@@ -10,7 +10,7 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'FrontEnd', link: '/front-end' },
       { text: 'BackEnd', link: '/back-end' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: 'DataBase', link: '/database' }
     ],
 
     sidebar: [
