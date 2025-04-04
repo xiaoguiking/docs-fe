@@ -13,7 +13,7 @@ export default defineConfig({
         items: [
           { text: 'Vue', link: '/vue/index' },
           { text: 'React', link: '/react/index' },
-          { text: 'Nodejs', link: '/node' },
+          { text: 'Nodejs', link: '/node/index' },
           { text: '前端工程化', link: '/webpack' },
         ]
       },
@@ -28,14 +28,19 @@ export default defineConfig({
           { text: 'Vue', link: '/vue/index' },
           { text: 'React', link: '/react/index' },
           { text: '前端工程化', link: '/webpack/index' },
-          // { text: 'Markdown Examples', link: '/markdown-examples' },
-          // { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'Markdown Examples', link: '/markdown-examples' },
+          { text: 'Runtime API Examples', link: '/api-examples' }
         ]
       },
       {
         text: 'Interview',
         items: [
           { text: '面试', link: '/interview/index' },
+          { text: 'Vue 使用', link: '/interview/vue' },
+          { text: 'Vue 原理', link: '/interview/vue-principle' },
+          { text: 'React 使用', link: '/interview/react' },
+          { text: 'React 原理', link: '/interview/react-principle' },
+          { text: 'Webpack', link: '/interview/webpack' },
           // { text: 'Runtime API Examples', link: '/api-examples' }
         ]
       },
@@ -54,6 +59,15 @@ export default defineConfig({
     // 支持全文搜索
     search: {
       provider: 'local'
+    },
+    // 自定义上次更新的文本和日期格式
+    lastUpdated: {
+      text: 'Updated at',
+      formatOptions: {
+        dateStyle: 'full',
+        timeStyle: 'medium'
+      }
     }
   }
 })
+
