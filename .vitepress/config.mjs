@@ -11,6 +11,7 @@ export default defineConfig({
       {
         text: 'FrontEnd',
         items: [
+          { text: 'typescript', link: '/typescript/index' },
           { text: 'Vue', link: '/vue/index' },
           { text: 'React', link: '/react/index' },
           { text: 'Nodejs', link: '/node/index' },

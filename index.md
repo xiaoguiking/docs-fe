@@ -8,6 +8,9 @@ hero:
   tagline: My great project tagline
   actions:
     - theme: brand
+      text: TypeScript
+      link: /typescript
+    - theme: alt
       text: React
       link: /react
     - theme: alt
