@@ -47,6 +47,16 @@
 :::
 
 
+
+## webpack 基本配置
+:::details
+- 拆分配置和merge
+- 启动本地服务
+- 处理ES6
+- 处理样式 loader 的执行顺序从后往前
+
+:::
+
 ## 前端代码为什么要进行构建和打包
  
 ## module chunk bundle 分别什么意思区别
