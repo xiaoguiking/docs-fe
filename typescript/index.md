@@ -742,3 +742,167 @@ const unknownObj: unknown = {};
 (unknownObj as { abc: number }).abc = 123; // ✅ 需要类型断言才能使用
 ```
 :::
+
+
+
+## interface接口
+
+### 简介
+
+:::details
+
+interface 是对象的模板，可以看作是一种类型约定
+
+```ts
+interface Person {
+  name: string;
+  age: number;
+  School?: string;  // ?代表属性可选，可以不写
+  readonly a: string;  // 只读属性
+  [index:string]: string;  // 索引属性  包含string number symbol
+  sayHello(): void;  // 方法
+  sayHe: () => void;  // 方法
+
+}
+使用:
+const person: Person = {
+  name: "zhangsan"
+  age: 34
+}
+
+
+函数的独立声明
+
+interface Add {
+  (x:number, y: number): number;
+}
+
+const add: Add = (x,y) => x+y
+
+
+
+构造函数
+interface ErrorConstructor {
+  new (message: string): Error;
+}
+
+```
+:::
+
+### interface extends继承
+
+:::details
+
+> extends 多interface 继承
+```ts
+interface Father {
+  name: string;
+  age: number;
+}
+interface Other {
+  other?:string;
+}
+interface Son extends Father, Other {
+  sex: string;
+}
+
+const p: Son = {
+  name: "kc",
+  age: 23,
+  sex: "male"
+}
+```
+
+> extends 继承 type
+
+```ts
+type Father = {
+  name: string;
+}
+interface Son extends Father {
+  age: number;
+}
+
+const p: Son = {
+  name: "ck",
+  age: 23
+}
+
+```
+
+>  接口合并
+
+```ts
+interface A {
+  name: string;
+}
+interface A {
+  age: number;
+}
+const p: A = {
+  name: "ck",
+  age: 23
+}
+```
+:::
+
+
+### interface implements实现
+
+:::details
+
+>  implements 实现接口
+
+```ts
+interface Person {
+  name: string;
+  age: number;
+  sayHello(): void;
+}
+
+class Student implements Person {
+  name: string;
+  age: number;
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+  sayHello() {
+  
+}
+
+```
+:::
+
+
+### interface vs type
+
+
+:::details
+
+---
+
+## 🔍 区别一览表
+
+| 特性                           | `interface`                | `type`                                                            |
+| ------------------------------ | -------------------------- | ----------------------------------------------------------------- |
+| ✅ 描述对象或类结构             | ✔️                          | ✔️                                                                 |
+| ✅ 可扩展 / 继承（extends）     | ✔️ 支持接口继承             | ✔️ 支持交叉类型 `type A = B & C`                                   |
+| 🔁 多次声明自动合并（合并声明） | ✔️ 支持（常用于库类型扩展） | ❌ 不支持                                                          |
+| 🎯 可用于基本类型、联合类型等   | ❌ 不行，只能描述对象结构   | ✔️ 可以描述任何类型（联合、元组、函数等）                          |
+| 🧠 更适合用作 class 类型定义    | ✔️                          | ✔️ 也可以（不常见）                                                |
+| 🧩 使用泛型                     | ✔️ 支持                     | ✔️ 支持                                                            |
+| 🧩 属性映射                     | 不支持                     | ✔️ 支持    `type PointCopy1 = {[Key in keyof Point]: Point[Key];}` |
+---
+
+
+:::
+
+## class 类
+
+:::details
+跳过
+:::
+
+
+## 泛型

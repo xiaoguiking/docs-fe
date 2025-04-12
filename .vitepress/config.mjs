@@ -11,7 +11,7 @@ export default defineConfig({
       {
         text: 'FrontEnd',
         items: [
-          { text: 'typescript', link: '/typescript/index' },
+          { text: 'TypeScript', link: '/typescript/index' },
           { text: 'Vue', link: '/vue/index' },
           { text: 'React', link: '/react/index' },
           { text: 'Nodejs', link: '/node/index' },
@@ -26,11 +26,12 @@ export default defineConfig({
       {
         text: 'FrontEnd',
         items: [
+          { text: 'TypeScript', link: '/typescript/index' },
           { text: 'Vue', link: '/vue/index' },
           { text: 'React', link: '/react/index' },
           { text: '前端工程化', link: '/webpack/index' },
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          // { text: 'Markdown Examples', link: '/markdown-examples' },
+          // { text: 'Runtime API Examples', link: '/api-examples' }
         ]
       },
       {
