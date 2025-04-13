@@ -30,6 +30,7 @@ export default defineConfig({
           { text: 'Vue', link: '/vue/index' },
           { text: 'React', link: '/react/index' },
           { text: '前端工程化', link: '/webpack/index' },
+          { text: '组件和状态设计', link: '/components/index' },
           // { text: 'Markdown Examples', link: '/markdown-examples' },
           // { text: 'Runtime API Examples', link: '/api-examples' }
         ]

@@ -341,4 +341,3 @@ const Home = lazy(() => import('./routes/Home'))
 - 使用Vdom操作DOM
 - React拥抱JS  Vue使用模版拥抱html
 - React函数式编程，Vue声明式编程
-- 
