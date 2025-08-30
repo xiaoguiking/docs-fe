@@ -16,6 +16,15 @@ hero:
     - theme: alt
       text: Vue
       link: /vue
+    - theme: alt
+      text: 前端高手进阶
+      link: /advanced
+    - theme: alt
+      text: Vite
+      link: /vite
+    - theme: alt
+      text: 前端性能优化
+      link: /fe-performance
 
 features:
   - title: Vue
