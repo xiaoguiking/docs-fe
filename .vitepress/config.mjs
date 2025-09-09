@@ -11,11 +11,11 @@ export default defineConfig({
       {
         text: 'FrontEnd',
         items: [
-          { text: 'TypeScript', link: '/typescript/index' },
-          { text: 'Vue', link: '/vue/index' },
-          { text: 'React', link: '/react/index' },
-          { text: 'Nodejs', link: '/node/index' },
-          { text: '前端工程化', link: '/webpack' },
+          { text: 'TypeScript', link: '/fe/typescript/fe-typescript' },
+          { text: 'Vue', link: '/fe/vue/fe-vue' },
+          { text: 'React', link: '/fe/react/fe-react' },
+          { text: 'Nodejs', link: '/be/nodejs/be-nodejs' },
+          { text: '前端工程化', link: '/fe/webpack/engineering-webpack' },
         ]
       },
       { text: 'BackEnd', link: '/back-end' },
@@ -26,14 +26,15 @@ export default defineConfig({
       {
         text: 'FrontEnd',
         items: [
-          { text: 'Javascript', link: '/javascript/index' },
-          { text: 'TypeScript', link: '/typescript/index' },
-          { text: 'Vue', link: '/vue/index' },
-          { text: 'React', link: '/react/index' },
-          { text: '前端工程化', link: '/webpack/index' },
-          { text: '组件和状态设计', link: '/components/index' },
-          // { text: 'Markdown Examples', link: '/markdown-examples' },
-          // { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'Javascript', link: '/fe/javascript/fe-javascript' },
+          { text: 'TypeScript', link: '/fe/typescript/fe-typescript' },
+          { text: 'Vue', link: '/fe/vue/fe-vue' },
+          { text: 'React', link: '/fe/react/fe-react' },
+          { text: 'React_16', link: '/fe/react/react_16' },
+          { text: '前端工程化', link: '/fe/webpack/engineering-webpack' },
+          { text: '组件和状态设计', link: '/components/components-and-state' },
+          { text: 'Markdown Examples', link: '/markdown-examples' },
+          { text: 'Runtime API Examples', link: '/api-examples' }
         ]
       },
       {
@@ -45,13 +46,13 @@ export default defineConfig({
           { text: 'React 使用', link: '/interview/react' },
           { text: 'React 原理', link: '/interview/react-principle' },
           { text: 'Webpack', link: '/interview/webpack' },
-          // { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: 'Runtime API Examples', link: '/api-examples' }
         ]
       },
       {
         text: 'Backend',
         items: [
-          // { text: 'Markdown Examples', link: '/markdown-examples' },
+          { text: 'Nodejs', link: '/be/nodejs/be-nodejs' },
           // { text: 'Runtime API Examples', link: '/api-examples' }
         ]
       },

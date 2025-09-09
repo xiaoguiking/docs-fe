@@ -9,13 +9,13 @@ hero:
   actions:
     - theme: brand
       text: TypeScript
-      link: /typescript
+      link: /fe/typescript/fe-typescript
     - theme: alt
       text: React
-      link: /react
+      link: /fe/react/fe-react
     - theme: alt
       text: Vue
-      link: /vue
+      link: /fe/vue/fe-vue
     - theme: alt
       text: 前端高手进阶
       link: /advanced
@@ -24,7 +24,7 @@ hero:
       link: /vite
     - theme: alt
       text: 前端性能优化
-      link: /fe-performance
+      link: /fe-performance/performance
 
 features:
   - title: Vue
