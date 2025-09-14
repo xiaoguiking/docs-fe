@@ -574,4 +574,549 @@ output: {
 :::
 
 #### 五、Vue spa 改造
+
+> 1.安装vue相关库
+
+:::details
+```javascript
+package.json
+
+{
+  "name": "zbestpc_update_vue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server --config build/webpack.config.js",
+    "dev:vue": "webpack-dev-server --config build/webpack.vue.config.js",   // add
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config build/webpack.config.js",
+    "build:vue": "webpack --config build/webpack.vue.config.js" // add
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "copy-webpack-plugin": "^13.0.1",
+    "css-loader": "^7.1.2",
+    "css-minimizer-webpack-plugin": "^7.0.2",
+    "ejs-loader": "^0.5.0",
+    "html-webpack-plugin": "^5.6.3",
+    "mini-css-extract-plugin": "^2.9.4",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2",
+    "vue-loader": "15.9.8", // add
+    "vue-template-compiler": "2.6.14",  // add
+    "@vue/compiler-sfc": "3.2.23"   // add
+  },
+  "dependencies": {
+    "flexslider": "^2.7.2",
+    "jquery": "^3.7.1",
+    "vue": "2.6.14",    // add
+    "vue-router": "3.5.3"  // add
+  }
+}
+```
+:::
+
+> 2.新增`build/webpack.vue.config.js`
+
+:::details
+```javascript
+const path = require("path")
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require('terser-webpack-plugin'); // 压缩js
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin"); // 压缩css
+const { VueLoaderPlugin } = require('vue-loader');
+
+const config = {
+    mode: "development",
+    entry: {
+        index: path.resolve(__dirname, "../src/main.js"),
+    },
+    output: {
+        filename: "js/[name].[hash].js",
+        path: path.join(__dirname, "../dist"),
+        clean: true,
+    },
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'dist')
+        },
+        // 启动压缩
+        compress: true,
+        port: 9999,
+        // 热启动
+        hot: true
+    },
+    module: {
+        rules: [
+            // 处理css
+            {
+                test: /\.css$/,
+                // use: ["style-loader", "css-loader"]
+                // 剥离插入dom中的css
+                use: [MiniCssExtractPlugin.loader, "css-loader"]
+            },
+            // 处理图片
+            {
+                test: /\.(png|svg|gif|jpg|jpeg)$/i,
+                type: "asset",
+                // 小于8kb的图片转为base64
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 8 * 1024
+                    }
+                },
+                generator: {
+                    filename: "img/[name]_[hash:8][ext]"
+                }
+            },
+            // 解析ejs-loader
+            {
+                test: /\.ejs/,
+                loader: "ejs-loader",
+                options: {
+                    esModule: false
+                }
+            },
+            // 解析vue add
+            {
+                test: /\.vue/,
+                loader: "vue-loader",
+
+            }
+        ]
+    },
+    // 配置优化
+    optimization: {
+        // 开发环境压缩
+        minimize: true,
+        minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
+        // 分割代码
+        splitChunks: {
+            minSize: 30 * 1024, // 最小大小 30kb
+            chunks: "all",
+            name: "common",
+            cacheGroups: {
+                jquery: {
+                    name: "jquery",
+                    test: /jquery/,
+                    chunks: "all"
+                }
+            }
+        }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: "index.html",
+            template: path.join(__dirname, "../public/index.html"),
+            chunks: ["index"]
+        }),
+        // 全局映射库
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        }),
+        // 拷贝插件
+        new CopyWebpackPlugin({
+            patterns: [{
+                from: path.join(__dirname, "../src/img"),
+                to: path.join(__dirname, "../dist/img")
+            }]
+        }),
+        // 剥离css生成单独文件
+        new MiniCssExtractPlugin({
+            filename: "css/[name].css",
+            chunkFilename: "css/[name].chunk.css"
+        }),
+        // 许可证 add
+        new VueLoaderPlugin()
+    ]
+}
+
+module.exports = config
+```
+:::
+
+> 3.新增入口文件`/src/main.js`
+
+:::details
+```javascript
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+
+new Vue({
+    router,
+    render: h => h(App),
+}).$mount('#app')
+```
+:::
+
+> 3.新增入口文件`public/index.html`
+
+:::details
+```javascript
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zbestpc_update_vue</title>
+    <!-- <script src="./dist/bundle.js"></script> -->
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+
+</html>
+```
+:::
+
+> 4.新增路由文件`src/router.js`
+
+:::details
+```javascript
+import Vue from 'vue'
+import Router from 'vue-router'
+import Home from './Home.vue'
+import Login from './Login.vue'
+
+Vue.use(Router)
+
+export default new Router({
+    routes: [
+        {
+            path: "/",
+            redirect: "/home"
+        }, {
+            path: '/home',
+            name: "Home",
+            component: Home
+        },
+        {
+            path: '/login',
+            name: "Login",
+            component: Login
+        }
+    ]
+})
+```
+:::
+
+> 5. 新增项目文件`Login.vue`, 以及修改`App.vue`文件
+
+:::details
+```vue
+App.vue
+
+<template><router-view></router-view></template>  // 路由访问
+
+Login.vue
+
+<template>
+  <!-------------------login-------------------------->
+  <div class="login">
+    <form action="#" method="post">
+      <h1>
+        <a href="index.html"><img src="img/temp/logo.png" /></a>
+      </h1>
+      <p></p>
+      <div class="msg-warn hide">
+        <b></b>公共场所不建议自动登录，以防账号丢失
+      </div>
+      <p>
+        <input type="text" name="" value="" placeholder="昵称/邮箱/手机号" />
+      </p>
+      <p><input type="text" name="" value="" placeholder="密码" /></p>
+      <p><input type="submit" name="" value="登  录" /></p>
+      <p class="txt">
+        <a class="" href="reg.html">免费注册</a
+        ><a href="forget.html">忘记密码？</a>
+      </p>
+    </form>
+  </div>
+</template>
+
+<script>
+import "./css/login.css";
+export default {
+  name: "Login",
+};
+</script>
+
+<style></style>
+
+```
+:::
+
+
 #### 六、Vue mpa 改造
+
+> 1. 新增配置文件 `build/webpack.vuempa.config.js`
+
+:::details
+```javascript
+
+const path = require("path")
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require('terser-webpack-plugin'); // 压缩js
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin"); // 压缩css
+const { VueLoaderPlugin } = require('vue-loader');
+
+const config = {
+    mode: "development",
+    // mpa add 多文件入口
+    entry: {
+        home: path.resolve(__dirname, "../src/mpa/home.js"),
+        login: path.resolve(__dirname, "../src/mpa/login.js"),
+    },
+    output: {
+        filename: "js/[name].[hash].js",
+        path: path.join(__dirname, "../dist"),
+        clean: true,
+    },
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'dist')
+        },
+        // 启动压缩
+        compress: true,
+        port: 9999,
+        // 热启动
+        hot: true
+    },
+    module: {
+        rules: [
+            // 处理css
+            {
+                test: /\.css$/,
+                // use: ["style-loader", "css-loader"]
+                // 剥离插入dom中的css
+                use: [MiniCssExtractPlugin.loader, "css-loader"]
+            },
+            // 处理图片
+            {
+                test: /\.(png|svg|gif|jpg|jpeg)$/i,
+                type: "asset",
+                // 小于8kb的图片转为base64
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 8 * 1024
+                    }
+                },
+                generator: {
+                    filename: "img/[name]_[hash:8][ext]"
+                }
+            },
+            // 解析ejs-loader
+            {
+                test: /\.ejs/,
+                loader: "ejs-loader",
+                options: {
+                    esModule: false
+                }
+            },
+            // 解析vue
+            {
+                test: /\.vue/,
+                loader: "vue-loader",
+
+            }
+        ]
+    },
+    // 配置优化
+    optimization: {
+        // 开发环境压缩
+        minimize: true,
+        minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
+        // 分割代码
+        splitChunks: {
+            minSize: 30 * 1024, // 最小大小 30kb
+            chunks: "all",
+            name: "common",
+            cacheGroups: {
+                jquery: {
+                    name: "jquery",
+                    test: /jquery/,
+                    chunks: "all"
+                }
+            }
+        }
+    },
+    plugins: [
+        // mpa add
+        new HtmlWebpackPlugin({
+            filename: "home.html",
+            template: path.join(__dirname, "../public/index.html"),
+            chunks: ["home"]
+        }),
+        // mpa add
+        new HtmlWebpackPlugin({
+            filename: "login.html",
+            template: path.join(__dirname, "../public/index.html"),
+            chunks: ["login"]
+        }),
+        // 全局映射库
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        }),
+        // 拷贝插件
+        new CopyWebpackPlugin({
+            patterns: [{
+                from: path.join(__dirname, "../src/img"),
+                to: path.join(__dirname, "../dist/img")
+            }]
+        }),
+        // 剥离css生成单独文件
+        new MiniCssExtractPlugin({
+            filename: "css/[name].css",
+            chunkFilename: "css/[name].chunk.css"
+        }),
+        // 许可证
+        new VueLoaderPlugin()
+    ]
+}
+
+module.exports = config
+```
+:::
+
+> 2. 新增入口文件 `src/mpa/home.js src/mpa/login.js`
+
+:::details
+```javascript
+home.js
+
+import Vue from 'vue'
+import App from '../Home.vue'
+
+new Vue({
+    render: h => h(App),
+}).$mount('#app')
+
+
+login.js
+
+import Vue from 'vue'
+import App from '../Login.vue'
+
+new Vue({
+    render: h => h(App),
+}).$mount('#app')
+```
+:::
+
+> 3. 修改脚本文件 `package.json`
+
+:::details
+```javascript
+  "scripts": {
+    "dev": "webpack-dev-server --config build/webpack.config.js",
+    "dev:vue": "webpack-dev-server --config build/webpack.vue.config.js",
+    "dev:vuempa": "webpack-dev-server --config build/webpack.vuempa.config.js",  // add
+    "build:vuempa": "webpack --config build/webpack.vuempa.config.js"           // add
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config build/webpack.config.js",
+    "build:vue": "webpack --config build/webpack.vue.config.js",
+  },
+```
+:::
+
+#### 六、Vue2 升级Vue3
+
+> 1. 修改脚本文件 `package.json`
+
+:::details
+```javascript
+  "scripts": {
+    "dev": "webpack-dev-server --config build/webpack.config.js",
+    "dev:vue": "webpack-dev-server --config build/webpack.vue.config.js",   
+    "dev:vue3": "webpack-dev-server --config build/webpack.vue3.config.js",  // add
+    "dev:vuempa": "webpack-dev-server --config build/webpack.vuempa.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config build/webpack.config.js",
+    "build:vue": "webpack --config build/webpack.vue.config.js",
+    "build:vue3": "webpack --config build/webpack.vue3.config.js",       // add
+    "build:vuempa": "webpack --config build/webpack.vuempa.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "copy-webpack-plugin": "^13.0.1",
+    "css-loader": "^7.1.2",
+    "css-minimizer-webpack-plugin": "^7.0.2",
+    "ejs-loader": "^0.5.0",
+    "html-webpack-plugin": "^5.6.3",
+    "mini-css-extract-plugin": "^2.9.4",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2",
+    "vue-loader": "^16.0.0",     // add
+    "vue-template-compiler": "2.6.14",
+    "@vue/compiler-sfc": "3.2.23"   
+  },
+  "dependencies": {
+    "flexslider": "^2.7.2",
+    "jquery": "^3.7.1",
+    "vue": "^3.0.0",  // add
+    "vue-router": "^4.0.0"   // add
+  }
+}
+```
+:::
+
+
+> 2. 修改入口文件 `src/main.js`
+
+:::details
+```javascript
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+
+createApp(App).use(router).mount('#app')
+```
+:::
+
+> 3. 修改路由文件 `src/router.js`
+
+:::details
+```javascript
+import { createRouter, createWebHashHistory } from 'vue-router'
+import Home from './Home.vue'
+import Login from './Login.vue'
+
+const router = createRouter({
+    history: createWebHashHistory(),
+    routes: [
+        {
+            path: "/",
+            redirect: "/home"
+        }, {
+            path: '/home',
+            name: "Home",
+            component: Home
+        },
+        {
+            path: '/login',
+            name: "Login",
+            component: Login
+        }
+    ]
+})
+export default router
+```
+:::
