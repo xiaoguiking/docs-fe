@@ -150,7 +150,7 @@ this.setState((prevState, props) => {
 
 [React-Class 组件生命周期](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
 
-![React-Class 组件生命周期](../public/Snipaste_2025-04-13_14-16-43.jpg)
+![React-Class 组件生命周期](../../public/Snipaste_2025-04-13_14-16-43.jpg)
 
 :::details
 

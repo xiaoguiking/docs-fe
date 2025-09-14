@@ -66,6 +66,7 @@
 - 挂载到顶层，减少内存消耗
 - 方便事件的统一管理
 
+<!-- ![React 合成事件](../../public/Snipaste_2025-04-04_17-02-46.jpg) -->
 ![React 合成事件](../public/Snipaste_2025-04-04_17-02-46.jpg)
 
 ## setState 和 batchUpdate 批量更新
