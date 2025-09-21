@@ -31,6 +31,7 @@ export default defineConfig({
           { text: 'Vue', link: '/fe/vue/fe-vue' },
           { text: 'React', link: '/fe/react/fe-react' },
           { text: 'React_16', link: '/fe/react/react_16' },
+          { text: 'Vite', link: '/fe/vite/fe-vite' },
           { text: '前端工程化', link: '/fe/webpack/engineering-webpack' },
           { text: '组件和状态设计', link: '/components/components-and-state' },
           { text: 'Markdown Examples', link: '/markdown-examples' },
@@ -46,6 +47,7 @@ export default defineConfig({
           { text: 'React 使用', link: '/interview/react' },
           { text: 'React 原理', link: '/interview/react-principle' },
           { text: 'Webpack', link: '/interview/webpack' },
+          { text: '前端性能优化', link: '/fe-performance/performance' },
           { text: 'Runtime API Examples', link: '/api-examples' }
         ]
       },

@@ -21,7 +21,7 @@ hero:
       link: /advanced
     - theme: alt
       text: Vite
-      link: /vite
+      link: /fe/vite/fe-vite
     - theme: alt
       text: 前端性能优化
       link: /fe-performance/performance

@@ -1034,7 +1034,7 @@ new Vue({
 ```
 :::
 
-#### 六、Vue2 升级Vue3
+#### 七、Vue2 升级Vue3
 
 > 1. 修改脚本文件 `package.json`
 
@@ -1120,3 +1120,8 @@ const router = createRouter({
 export default router
 ```
 :::
+
+
+
+
+## 前端性能监控和优化
